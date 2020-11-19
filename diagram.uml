@@ -1,13 +1,33 @@
 @startuml Chess
 
-class MasterMind {}
-class Game {}
-class Attempt {}
-abstract class Combination {}
-class SecrectCombination {}
-class ProposedCombination {}
+class MasterMind {
+    + play()
+    + isResume()
+}
+class Game {
+    + play()
+}
+class Attempt {
+    + play()
+    + result(SecrectCombination)
+    + print()
+    + isWinner()
+}
 
-class Console {}
+abstract class Combination {
+    + abstract generate()
+    + abstract toString()
+}
+class SecrectCombination {
+    + compare(ProposedCombination)
+}
+class ProposedCombination {
+}
+
+class Console {
+    + write()
+    + readString()
+}
 
 enum Color  {
     RED,
@@ -18,6 +38,9 @@ enum Color  {
     MAGENTE,
     ORANGE,
     SILVER;
+    + valueOf(char)
+    + shortName()
+    + shortNames()
 }
 
 enum Pig {
@@ -26,14 +49,20 @@ enum Pig {
 }
 
 MasterMind *--> Game
-MasterMind --> Console
 Game *--> SecrectCombination
-Game *--> "1, 10" Attempt
-Combination <-- SecrectCombination
-Combination <-- ProposedCombination
+Game *--> "1, 10" Attempt 
+Combination <|-- SecrectCombination
+Combination <|-- ProposedCombination
 Attempt *--> ProposedCombination
-SecrectCombination --> ProposedCombination
-Combination *--> "4" Color
-Attempt *--> "4" Pig
+Attempt ..> SecrectCombination
+SecrectCombination ..> ProposedCombination
+Combination *--> Color : 4
+Attempt *--> Pig : 4
+
+MasterMind ..> Console
+Game ..> Console
+Attempt ..> Console
+SecrectCombination ..> Console
+ProposedCombination ..> Console
 
 @enduml
