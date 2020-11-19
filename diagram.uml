@@ -1,0 +1,39 @@
+@startuml Chess
+
+class MasterMind {}
+class Game {}
+class Attempt {}
+abstract class Combination {}
+class SecrectCombination {}
+class ProposedCombination {}
+
+class Console {}
+
+enum Color  {
+    RED,
+    BLUE,
+    GREEN,
+    YELLOW,
+    PINK,
+    MAGENTE,
+    ORANGE,
+    SILVER;
+}
+
+enum Pig {
+    WHITE,
+    BLACK;
+}
+
+MasterMind *--> Game
+MasterMind --> Console
+Game *--> SecrectCombination
+Game *--> "1, 10" Attempt
+Combination <-- SecrectCombination
+Combination <-- ProposedCombination
+Attempt *--> ProposedCombination
+SecrectCombination --> ProposedCombination
+Combination *--> "4" Color
+Attempt *--> "4" Pig
+
+@enduml
